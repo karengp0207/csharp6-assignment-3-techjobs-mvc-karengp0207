@@ -42,8 +42,23 @@ public class ListController : Controller
     }
 
     // TODO #2 - Complete the Jobs action method
-    public IActionResult Jobs(string column, string value)
+    public IActionResult Jobs(string column, string value)  //column & value are parameters
     {
+        List<Job> jobs;
+
+        if(string.IsNullOrEmpty(column) || string.IsNullOrEmpty(value))  //checks to see if null or empty
+        {
+            jobs = JobData.FindAll();
+            ViewBag.title = "All Jobs";
+        }
+        else
+        {
+            jobs = JobData.FindByColumnAndValue(column, value);  //get the jobs that match the specified criteria
+            ViewBag.title = "Jobs with " + column + ": " + value;
+        }
+
+        ViewBag.jobs = jobs;
+
         return View();
     }
 }
